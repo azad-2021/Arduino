@@ -1,16 +1,17 @@
 
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
-#include <ArduinoJson.h>
-#include <ESP8266Ping.h>
+#include <WiFiClient.h>
+
+WiFiClient wifiClient;
 
 int wifiStatus = 12;
 int internet = 13;
 int sw = 14;
-const char* ssid = "Shubham boys hostel_4G";
-const char* password = "987654321@";
+const char* ssid = "ASUS";
+const char* password = "leo greator";
 const int deviceStatus = 5;
-const IPAddress remote_ip(142, 250, 192, 46); // Remote host
+const IPAddress remote_ip(185, 27, 134, 113); // Remote host
 unsigned long sendStatus;
 void setup () {
 
@@ -38,46 +39,34 @@ void setup () {
 }
 
 void loop() {
-
-  StaticJsonDocument<200> doc;
   String payload = "";
   if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status
 
     digitalWrite(wifiStatus, HIGH);
 
-    // Ping
-    if (Ping.ping(remote_ip)) {
-      Serial.println("Success!!");
-      digitalWrite(internet, HIGH);
-    } else {
-      Serial.println("Error :(");
-      digitalWrite(internet, LOW);
-    }
-
 
     HTTPClient http;  //Declare an object of class HTTPClient
-    int Status  = digitalRead(deviceStatus);
+
     String url = "";
-    if (Status == 1) {
-      url = "http://api.suryavanshiservices.com/writeDevice1.php?Value=1";
-      digitalWrite(sw, HIGH);
-    }
-    else {
-      url = "http://api.suryavanshiservices.com/writeDevice1.php?Value=0";
-      digitalWrite(sw, LOW);
-    }
-    http.begin(url);  //Specify request destination
+    url = "http://officialas.byethost24.com/aqms/write.php?pm2=10&pm10=30&temp=40&hum=80&p=100&co2=82&btlevel=96&btemp=45&so2=10";
+
+    http.begin(wifiClient, url); //Specify request destination
     int httpCode = http.GET();                                  //Send the request
     Serial.println(httpCode);
     if (httpCode > 0) { //Check the returning code
 
-      payload = http.getString();   //Get the request response payload
-      Serial.println(payload);             //Print the response payload
+     // payload = http.getString();   //Get the request response payload
+      Serial.println("Temp: 28*C\n");             //Print the response payload
+      Serial.println("Hum: 81%\n");
+      Serial.println("P: 1012hPa\n");
+      Serial.println("PM2.5: 50 ug/m3\n");
+      Serial.println("PM10: 39ug/m3\n");
+      Serial.println("CO2: 200ug/m3\n");
 
     }
 
     if (millis() - sendStatus > 10000) {
-      http.begin("http://api.suryavanshiservices.com/d1Status.php?Value=1");
+      http.begin(wifiClient, "http://officialas.byethost24.com/aqms/write.php?pm2=10&pm10=30&temp=40&hum=80&p=100&co2=82&btlevel=96&btemp=45&so2=10");
       Serial.println("Sending device status to server");
       int httpCode = http.GET();                                  //Send the request
       Serial.println(httpCode);
@@ -88,5 +77,5 @@ void loop() {
     http.end();   //Close connection
 
   }
- 
+delay(3600000);
 }
