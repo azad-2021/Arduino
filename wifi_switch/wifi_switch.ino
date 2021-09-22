@@ -17,108 +17,99 @@ ESP8266WebServer  webServer(80);          // Webserver object
 
 int GPIO_2 = 12; //Pin defanition - Relay will be connected to GPIO-0
 int GPIO_3 = 14;
-             /*START OF HMTL CODE*/
-             String style_detials =  //This String defines the style attributes for webpage
-               "<style type=\"text/css\">"
-               " body{"
-               "  background-color: #a69695;"
-               "}"
-               "button{"
-               " display: inline-block;"
-               "}"
-               "#buttons{"
-               " text-align: center;"
-               "}"
+/*START OF HMTL CODE*/
+String style_detials =  //This String defines the style attributes for webpage
+  "<style type=\"text/css\">"
+  " body{"
+  "  background-color: #830C7E;"
+  "}"
+  "#buttons{"
+  " text-align: center;"
+  " display: inline-block;"
+  "}"
 
-               ".controllButtons{"
-               " margin-top: 15px;"
-               "margin-left: 5px;"
-               "background-color: white;"
-               "padding: 10px;"
-               "border:1px solid black;"
-               "border-radius: 10px;"
-               "cursor: pointer;"
-               "font-size: 14px;"
-               "}"
+  ".controllButtons{"
+  " margin: 10px;"
+  "background-color: white;"
+  "padding: 10px;"
+  "border:1px solid black;"
+  "border-radius: 10px;"
+  "cursor: pointer;"
+  "font-size: 16px;"
+  "}"
 
-               ".controllButtons:hover{"
-               " background-color: orange;"
-               "padding: 10px;"
-               "border:1px solid black;"
-               "border-radius: 10px;"
-               "cursor: pointer;"
-               "font-size: 14px;"
-               "}"
+  ".controllButtonsActive{"
+  " margin: 10px;"
+  "background-color: #63D50A;"
+  "padding: 10px;"
+  "border:1px solid black;"
+  "border-radius: 10px;"
+  "cursor: pointer;"
+  "font-size: 16px;"
+  "}"
 
-               "@media only screen and (max-width: 700px) {"
-               " button{"
-               "  display: block;"
-               "}"
-               "#buttons{"
-               " margin-top: 10%;"
-               "margin-left: 35%;"
-               "}"
-               " .controllButtons{"
-               "  margin-top: 15px;"
-               "margin-left: 5px;"
-               "background-color: white;"
-               "padding: 15px;"
-               "border:1px solid black;"
-               "border-radius: 10px;"
-               "cursor: pointer;"
-               "font-size: 16px;"
-               "}"
+  
+  ".controllButtons:hover{"
+  " background-color: orange;"
+  "padding: 10px;"
+  "border:1px solid black;"
+  "border-radius: 10px;"
+  "cursor: pointer;"
+  "font-size: 16px;"
+  "}"
 
-               ".controllButtons:hover{"
-               " background-color: orange;"
-               "padding: 15px;"
-               "border:1px solid black;"
-               "border-radius: 10px;"
-               "cursor: pointer;"
-               "font-size: 16px;"
-               "}"
-               "}"
 
-               "</style>";
+
+  "@media only screen and (max-width: 1080px) {"
+  " button{"
+  "  display: inline-block;"
+  "}"
+
+  "}"
+
+  "</style>";
 
 String Home_Screen1 = "" //Page 1 - Home Screen HTML code
                       "<!DOCTYPE html><html>"
                       "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
                       + style_detials +
-                      "<div id=\"buttons\">"
+                      "<body>"
+                      "<div id=\"buttons\"><h3>Welcome to Suryavanshi's World</h3>"
                       "<a style=\"text-decoration:none;\" href=\"relay1_ON\"> <button id=\"switchLight1\" class=\"controllButtons\">Swith 1 ON</button> </a>"
                       "<a style=\"text-decoration:none;\" href=\"relay1_OFF\"><button id=\"switchLight2\" class=\"controllButtons\">Switch 1 OFF</button>  </a>"
                       "<a style=\"text-decoration:none;\" href=\"relay2_ON\"> <button id=\"switchLight3\" class=\"controllButtons\">Swith 2 ON </button> </a>"
                       "<a style=\"text-decoration:none;\" href=\"relay2_OFF\"><button id=\"switchLight4\" class=\"controllButtons\">Switch 2 OFF</button>  </a>"
                       "</div>"
-                      "<body><h1>Welcome to Suryavanshi's World</h1>"
-                      "</body></html>";
+                      "</body>"
+                      "</html>";
 
 String ON_Screen1 = "" //Page 2 - If device is turned ON
                     "<!DOCTYPE html><html>"
                     "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
                     + style_detials +
-                    "<div id=\"buttons\">"
-                    "<a style=\"text-decoration:none;\" href=\"relay1_ON\"> <button id=\"switchLight1\" class=\"controllButtons\">Swith 1 ON</button> </a>"
+                    "<body>"
+                    "<div id=\"buttons\"><h3>Welcome to Suryavanshi's World</h3>"
+                    "<a style=\"text-decoration:none;\" href=\"relay1_ON\"> <button id=\"switchLight1\" class=\"controllButtonsActive\">Swith 1 ON</button> </a>"
                     "<a style=\"text-decoration:none;\" href=\"relay1_OFF\"><button id=\"switchLight2\" class=\"controllButtons\">Switch 1 OFF</button>  </a>"
                     "<a style=\"text-decoration:none;\" href=\"relay2_ON\"> <button id=\"switchLight3\" class=\"controllButtons\">Swith 2 ON </button> </a>"
                     "<a style=\"text-decoration:none;\" href=\"relay2_OFF\"><button id=\"switchLight4\" class=\"controllButtons\">Switch 2 OFF</button>  </a>"
                     "</div>"
-                    "<body><h1>Smart Plug - Turned ON</h1>"
-                    "</body></html>";
+                    "</body>"
+                    "</html>";
 
 String OFF_Screen1 = "" //Page 3 - If device is turned OFF
                      "<!DOCTYPE html><html>"
                      "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
                      + style_detials +
-                     "<div id=\"buttons\">"
+                     "<body>"
+                     "<div id=\"buttons\"><h3>Welcome to Suryavanshi's World</h3>"
                      "<a style=\"text-decoration:none;\" href=\"relay1_ON\"> <button id=\"switchLight1\" class=\"controllButtons\">Swith 1 ON</button> </a>"
                      "<a style=\"text-decoration:none;\" href=\"relay1_OFF\"><button id=\"switchLight2\" class=\"controllButtons\">Switch 1 OFF</button>  </a>"
                      "<a style=\"text-decoration:none;\" href=\"relay2_ON\"> <button id=\"switchLight3\" class=\"controllButtons\">Swith 2 ON </button> </a>"
                      "<a style=\"text-decoration:none;\" href=\"relay2_OFF\"><button id=\"switchLight4\" class=\"controllButtons\">Switch 2 OFF</button>  </a>"
                      "</div>"
-                     "<body><h1>Smart Plug - Turned OFF</h1>"
-                     "</body></html>";
+                     "</body>"
+                     "</html>";
 
 /*END OF HMTL CODE*/
 
@@ -149,7 +140,7 @@ void setup() {
     digitalWrite(GPIO_2, HIGH);  //Turn off Relay
     webServer.send(200, "text/html", ON_Screen1); //Display this screen
   });
- webServer.on("/relay2_ON", []() { //If turn on Button is pressed
+  webServer.on("/relay2_ON", []() { //If turn on Button is pressed
     digitalWrite(LED_BUILTIN, LOW); //Turn off LED
     digitalWrite(GPIO_3, HIGH);  //Turn off Relay
     webServer.send(200, "text/html", ON_Screen1); //Display this screen
